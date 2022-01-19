@@ -48,6 +48,8 @@ namespace Server.BLL.Implementations
                     data = Encoding.ASCII.GetString(bytes,
                                                0, numByte);
 
+                    Console.WriteLine("Received: {0}", data);
+
                     byte[] message = Encoding.ASCII.GetBytes(data);
                     clientSocket.Send(message);
                 }

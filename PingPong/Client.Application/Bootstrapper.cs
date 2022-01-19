@@ -2,7 +2,7 @@
 using Client.BLL.Implementations;
 using System;
 
-namespace Server.UI
+namespace Client.Application
 {
     public class Bootstrapper
     {
@@ -13,11 +13,12 @@ namespace Server.UI
         {
             IClientFactory clientFactory = new ClientFactory();
             int port = 0;
+            string ip = string.Empty;
             while(port < _minPort || port > _maxPort)
             {
                 Console.WriteLine("Enter ip:port");
                 string input = Console.ReadLine();
-                string ip = input.Substring(0, input.IndexOf(":"));
+                ip = input.Substring(0, input.IndexOf(":"));
                 port = int.Parse(input.Substring(input.IndexOf(":") + 1));
             }
             return clientFactory.CreateClient(port, ip); 

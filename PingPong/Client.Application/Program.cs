@@ -1,14 +1,16 @@
-﻿namespace Client.Application
+﻿using Client.BLL.Abstractions;
+
+namespace Client.Application
 {
-    class Program
+    public class Program
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
             Bootstrapper bootstrapper = new Bootstrapper();
 
-            ServerBase server = bootstrapper.Initialize();
+            ClientBase client = bootstrapper.Initialize();
 
-            server?.Run();
+            client.Run();
         }
     }
 }
