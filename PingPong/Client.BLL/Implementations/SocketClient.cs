@@ -40,13 +40,16 @@ namespace Client.BLL.Implementations
         {
             try
             {
-                byte[] messageSent = Encoding.ASCII.GetBytes(Console.ReadLine());
-                int byteSent = sender.Send(messageSent);
-                byte[] messageReceived = new byte[1024];
-                int byteRecv = sender.Receive(messageReceived);
-                Console.WriteLine("Message from Server -> {0}",
-                      Encoding.ASCII.GetString(messageReceived,
-                                                 0, byteRecv));
+                while(true)
+                {
+                    byte[] messageSent = Encoding.ASCII.GetBytes(Console.ReadLine());
+                    int byteSent = sender.Send(messageSent);
+                    byte[] messageReceived = new byte[1024];
+                    int byteRecv = sender.Receive(messageReceived);
+                    Console.WriteLine("Message from Server -> {0}",
+                          Encoding.ASCII.GetString(messageReceived,
+                                                     0, byteRecv));
+                }
             }
             catch(Exception e)
             {

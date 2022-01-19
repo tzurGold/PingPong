@@ -19,7 +19,7 @@ namespace Server.Application
         {
             IServerFactory serverFactory = new ServerFactory();
             int port = 0;
-            if(!int.TryParse(_args[1], out port) || port < _minPort || port > _maxPort)
+            if(_args.Length != 1 || !int.TryParse(_args[0], out port) || port < _minPort || port > _maxPort)
             {
                 Console.WriteLine("Invalid port entered");
                 return null;

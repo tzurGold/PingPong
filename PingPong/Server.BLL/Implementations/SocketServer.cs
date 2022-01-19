@@ -22,8 +22,8 @@ namespace Server.BLL.Implementations
                 Socket listener = Listen();
                 while (true)
                 {
-                    Socket clientSocket = listener.Accept();
-                   DoAction(clientSocket);
+                   Socket clientSocket = listener.Accept();
+                    DoAction(clientSocket);
                 }
             }
             catch(Exception e)
@@ -66,9 +66,8 @@ namespace Server.BLL.Implementations
         {
             try
             {
-                IPHostEntry ipHost = Dns.GetHostEntry(Dns.GetHostName());
-                IPAddress ipAddr = ipHost.AddressList[0];
-                IPEndPoint localEndPoint = new IPEndPoint(ipAddr, 11111);
+                IPAddress ipAddr = IPAddress.Parse("127.0.0.1");
+                IPEndPoint localEndPoint = new IPEndPoint(ipAddr, Port);
                 Socket listener = new Socket(ipAddr.AddressFamily,
                              SocketType.Stream, ProtocolType.Tcp);
 

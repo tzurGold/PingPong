@@ -12,7 +12,7 @@ namespace Client.Application
         public ClientBase Initialize()
         {
             IClientFactory clientFactory = new ClientFactory();
-            int port = 0;
+            int port = -1;
             string ip = string.Empty;
             while(port < _minPort || port > _maxPort)
             {
