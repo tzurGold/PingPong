@@ -2,6 +2,6 @@
 {
     public interface IServerFactory
     {
-        IServer CreateServer();
+        ServerBase CreateServer(int port);
     }
 }
