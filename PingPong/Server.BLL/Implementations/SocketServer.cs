@@ -23,7 +23,7 @@ namespace Server.BLL.Implementations
                 while (true)
                 {
                    Socket clientSocket = listener.Accept();
-                    DoAction(clientSocket);
+                    Task.Run(() => DoAction(clientSocket));
                 }
             }
             catch(Exception e)
@@ -33,7 +33,7 @@ namespace Server.BLL.Implementations
         }
 
 
-        private async Task DoAction(Socket clientSocket)
+        private void DoAction(Socket clientSocket)
         {
             byte[] bytes = new Byte[1024];
             string data;
