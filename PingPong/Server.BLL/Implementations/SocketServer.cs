@@ -1,7 +1,10 @@
 ﻿using Server.BLL.Abstraction;
 using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Server.BLL.Implementations
 {
@@ -20,6 +23,7 @@ namespace Server.BLL.Implementations
                 while (true)
                 {
                     Socket clientSocket = listener.Accept();
+                   DoAction(clientSocket);
                 }
             }
             catch(Exception e)
@@ -28,14 +32,32 @@ namespace Server.BLL.Implementations
             }
         }
 
-        private void Connect()
-        {
-            throw new System.NotImplementedException();
-        }
 
-        private void DoAction()
+        private async Task DoAction(Socket clientSocket)
         {
-            throw new System.NotImplementedException();
+            byte[] bytes = new Byte[1024];
+            string data;
+
+            try
+            {
+                while (true)
+                {
+
+                    int numByte = clientSocket.Receive(bytes);
+
+                    data = Encoding.ASCII.GetString(bytes,
+                                               0, numByte);
+
+                    byte[] message = Encoding.ASCII.GetBytes(data);
+                    clientSocket.Send(message);
+                }
+            }
+            catch(Exception e)
+            {
+                clientSocket.Shutdown(SocketShutdown.Both);
+                clientSocket.Close();
+                throw;
+            }
         }
 
         private Socket Listen()
