@@ -2,7 +2,7 @@
 using Server.BLL.Implementations;
 using System;
 
-namespace Server.UI
+namespace Server.Application
 {
     public class Bootstrapper
     {

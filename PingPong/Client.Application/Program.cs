@@ -1,12 +1,10 @@
-﻿using Server.BLL.Abstraction;
-
-namespace Server.Application
+﻿namespace Client.Application
 {
     class Program
     {
         static void Main(string[] args)
         {
-            Bootstrapper bootstrapper = new Bootstrapper(args);
+            Bootstrapper bootstrapper = new Bootstrapper();
 
             ServerBase server = bootstrapper.Initialize();
 
