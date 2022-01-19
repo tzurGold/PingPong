@@ -6,7 +6,7 @@ namespace Server.UI
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            Bootstrapper bootstrapper = new Bootstrapper(args);
         }
     }
 }
