@@ -1,4 +1,4 @@
-﻿using System;
+﻿using Server.BLL.Abstraction;
 
 namespace Server.UI
 {
@@ -7,6 +7,10 @@ namespace Server.UI
         static void Main(string[] args)
         {
             Bootstrapper bootstrapper = new Bootstrapper(args);
+
+            ServerBase server = bootstrapper.Initialize();
+
+            server?.Run();
         }
     }
 }
