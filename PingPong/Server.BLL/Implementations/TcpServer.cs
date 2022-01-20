@@ -35,7 +35,7 @@ namespace Server.BLL.Implementations
             }
         }
 
-        private void Listen()
+        protected override void Listen()
         {
             IPAddress localAddr = IPAddress.Parse("127.0.0.1");
             _listener = new TcpListener(localAddr, Port);
@@ -51,7 +51,11 @@ namespace Server.BLL.Implementations
 
             Console.WriteLine(p);
 
-            formatter.Serialize(stream, p);
+            byte[] data = new byte[256];
+            System.IO.MemoryStream memoryStream = new System.IO.MemoryStream();
+            formatter.Serialize(memoryStream, p);
+            data = memoryStream.ToArray();
+
         }
     }
 }
