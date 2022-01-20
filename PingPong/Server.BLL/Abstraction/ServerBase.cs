@@ -7,7 +7,7 @@ namespace Server.BLL.Abstraction
     public abstract class ServerBase
     {
         protected readonly int Port;
-        protected NotifyException ServerNotifyException;
+        protected readonly NotifyException ServerNotifyException;
         protected readonly IAction ServerAction;
 
         public ServerBase(int port, NotifyException notifyException, IAction action)

@@ -2,6 +2,6 @@
 {
     public interface IAction
     {
-        void Execute(IConnectedClient client);
+        void Execute(IConnectedClient connectedClient);
     }
 }

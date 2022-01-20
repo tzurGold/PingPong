@@ -5,12 +5,10 @@ namespace Server.BLL.Implementations
 {
     public class TcpConnectedClient : IConnectedClient
     {
-        private TcpClient _client;
         private NetworkStream _stream;
 
         public TcpConnectedClient(TcpClient client)
         {
-            _client = client;
             _stream = client.GetStream();
         }
 

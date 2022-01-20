@@ -3,9 +3,7 @@ using Server.BLL.Abstraction;
 using System;
 using System.Net;
 using System.Net.Sockets;
-using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.Threading.Tasks;
+using UI.Implementations;
 
 namespace Server.BLL.Implementations
 {
@@ -14,25 +12,9 @@ namespace Server.BLL.Implementations
 
         private TcpListener _listener;
 
-        public TcpServer(int port) : base(port)
+        public TcpServer(int port, NotifyException notifyException, IAction action) : base(port, notifyException, action)
         {
-        }
 
-        public override void Run()
-        {
-            try
-            {
-                Listen();
-                while (true)
-                {
-                    TcpClient client = _listener.AcceptTcpClient();
-                    Task.Run(() => DoAction(client));
-                }
-            }
-            catch (Exception e)
-            {
-
-            }
         }
 
         protected override void CloseConnection()
@@ -43,6 +25,7 @@ namespace Server.BLL.Implementations
         protected override IConnectedClient Connect()
         {
             TcpClient client = _listener.AcceptTcpClient();
+            return new TcpConnectedClient(client);
         }
 
         protected override void Listen()
@@ -50,22 +33,6 @@ namespace Server.BLL.Implementations
             IPAddress localAddr = IPAddress.Parse("127.0.0.1");
             _listener = new TcpListener(localAddr, Port);
             _listener.Start();
-        }
-
-        private void DoAction(TcpClient client)
-        {
-            NetworkStream stream = client.GetStream();
-            IFormatter formatter = new BinaryFormatter();
-
-            Person p = (Person)formatter.Deserialize(stream);
-
-            Console.WriteLine(p);
-
-            byte[] data = new byte[256];
-            System.IO.MemoryStream memoryStream = new System.IO.MemoryStream();
-            formatter.Serialize(memoryStream, p);
-            data = memoryStream.ToArray();
-
         }
     }
 }
