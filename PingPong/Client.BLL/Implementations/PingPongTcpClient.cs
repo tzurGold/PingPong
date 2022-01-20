@@ -4,6 +4,7 @@ using System;
 using System.Net.Sockets;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Threading;
 
 namespace Client.BLL.Implementations
 {
@@ -29,6 +30,7 @@ namespace Client.BLL.Implementations
             Console.WriteLine("Received: {0}", p);
 
             stream.Close();
+            Thread.Sleep(10000);
             client.Close();
         }
     }
