@@ -1,6 +1,9 @@
 ﻿using Client.BLL.Abstractions;
+using Common.DTOs;
 using System;
 using System.Net.Sockets;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace Client.BLL.Implementations
 {
@@ -15,17 +18,15 @@ namespace Client.BLL.Implementations
         {
             TcpClient client = new TcpClient(Ip, Port);
 
-            byte[] data = System.Text.Encoding.ASCII.GetBytes(Console.ReadLine());
+            IFormatter formatter = new BinaryFormatter();
 
             NetworkStream stream = client.GetStream();
 
-            stream.Write(data, 0, data.Length);
+            formatter.Serialize(stream, new Person("T", 18));
 
-            data = new Byte[256];
+            Person p = (Person)formatter.Deserialize(stream);
 
-            int bytes = stream.Read(data, 0, data.Length);
-            string responseData = System.Text.Encoding.ASCII.GetString(data, 0, bytes);
-            Console.WriteLine("Received: {0}", responseData);
+            Console.WriteLine("Received: {0}", p);
 
             stream.Close();
             client.Close();
