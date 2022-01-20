@@ -43,11 +43,8 @@ namespace Server.BLL.Implementations
             }
             catch (Exception e)
             {
-                throw;
-            }
-            finally
-            {
                 _listener.Close();
+                throw;
             }
         }
     }

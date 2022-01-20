@@ -27,7 +27,7 @@ namespace Server.Application
                 writer.WriteLine("Invalid port entered");
                 return null;
             }
-            NotifyException notifyException = new NotifyException();
+            NotifyException notifyException = new NotifyException(writer);
             IAction action = new SocketServerAction();
             return serverFactory.CreateServer(port, notifyException, action); 
         }

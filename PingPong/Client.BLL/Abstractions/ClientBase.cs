@@ -30,11 +30,14 @@ namespace Client.BLL.Abstractions
             {
                 Connect();
                 CommunicateWithServer();
-                CloseConnection();
             }
             catch (Exception e)
             {
                 _notifyException.Notify(e.ToString());
+            }
+            finally
+            {
+                CloseConnection();
             }
         }
     }

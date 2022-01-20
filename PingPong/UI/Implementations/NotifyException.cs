@@ -6,10 +6,6 @@ namespace UI.Implementations
     {
         private IOutput<string> _writer;
 
-        public NotifyException()
-        {
-        }
-
         public NotifyException(IOutput<string> writer)
         {
             _writer = writer;
