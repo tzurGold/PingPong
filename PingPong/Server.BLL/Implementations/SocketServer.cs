@@ -2,84 +2,52 @@
 using System;
 using System.Net;
 using System.Net.Sockets;
-using System.Text;
-using System.Threading.Tasks;
+using UI.Implementations;
 
 namespace Server.BLL.Implementations
 {
     public class SocketServer : ServerBase
     {
-        public SocketServer(int port) : base(port)
+
+        private Socket _listener;
+
+        public SocketServer(int port, NotifyException notifyException, IAction action)
+            : base(port, notifyException, action)
         {
 
         }
 
-        public override void Run()
+        protected override void CloseConnection()
         {
-            try
-            {
-                Socket listener = Listen();
-                while (true)
-                {
-                   Socket clientSocket = listener.Accept();
-                    Task.Run(() => DoAction(clientSocket));
-                }
-            }
-            catch(Exception e)
-            {
-
-            }
+            _listener.Close();
         }
 
-
-        private void DoAction(Socket clientSocket)
+        protected override IConnectedClient Connect()
         {
-            byte[] bytes = new Byte[1024];
-            string data;
-
-            try
-            {
-                while (true)
-                {
-
-                    int numByte = clientSocket.Receive(bytes);
-
-                    data = Encoding.ASCII.GetString(bytes,
-                                               0, numByte);
-
-                    Console.WriteLine("Received: {0}", data);
-
-                    byte[] message = Encoding.ASCII.GetBytes(data);
-                    clientSocket.Send(message);
-                }
-            }
-            catch(Exception e)
-            {
-                clientSocket.Shutdown(SocketShutdown.Both);
-                clientSocket.Close();
-                throw;
-            }
+            Socket clientSocket = _listener.Accept();
+            return new SocketConnectedClient(clientSocket);
         }
 
-        private Socket Listen()
+        protected override void Listen()
         {
             try
             {
                 IPAddress ipAddr = IPAddress.Parse("127.0.0.1");
                 IPEndPoint localEndPoint = new IPEndPoint(ipAddr, Port);
-                Socket listener = new Socket(ipAddr.AddressFamily,
+                _listener = new Socket(ipAddr.AddressFamily,
                              SocketType.Stream, ProtocolType.Tcp);
 
-                listener.Bind(localEndPoint);
+                _listener.Bind(localEndPoint);
 
-                listener.Listen(10);
-
-                return listener;
+                _listener.Listen(10);
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
                 throw;
+            }
+            finally
+            {
+                _listener.Close();
             }
         }
     }

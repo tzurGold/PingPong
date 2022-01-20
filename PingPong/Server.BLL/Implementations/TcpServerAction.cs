@@ -11,14 +11,17 @@ namespace Server.BLL.Implementations
     {
         public void Execute(IConnectedClient connectedClient)
         {
-            IFormatter formatter = new BinaryFormatter();
-            Person p = (Person)formatter.Deserialize(new MemoryStream(connectedClient.Receive()));
-            Console.WriteLine(p);
+            while (true)
+            {
+                IFormatter formatter = new BinaryFormatter();
+                Person p = (Person)formatter.Deserialize(new MemoryStream(connectedClient.Receive()));
+                Console.WriteLine(p);
 
-            MemoryStream memoryStream = new MemoryStream();
-            formatter.Serialize(memoryStream, p);
-            byte[] data = memoryStream.ToArray();
-            connectedClient.Send(data);
+                MemoryStream memoryStream = new MemoryStream();
+                formatter.Serialize(memoryStream, p);
+                byte[] data = memoryStream.ToArray();
+                connectedClient.Send(data);
+            }
         }
     }
 }

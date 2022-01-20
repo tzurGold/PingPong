@@ -1,6 +1,4 @@
-﻿using Common.DTOs;
-using Server.BLL.Abstraction;
-using System;
+﻿using Server.BLL.Abstraction;
 using System.Net;
 using System.Net.Sockets;
 using UI.Implementations;
@@ -12,7 +10,8 @@ namespace Server.BLL.Implementations
 
         private TcpListener _listener;
 
-        public TcpServer(int port, NotifyException notifyException, IAction action) : base(port, notifyException, action)
+        public TcpServer(int port, NotifyException notifyException, IAction action)
+            : base(port, notifyException, action)
         {
 
         }

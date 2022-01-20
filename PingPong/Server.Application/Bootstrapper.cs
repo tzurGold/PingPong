@@ -1,6 +1,8 @@
 ﻿using Server.BLL.Abstraction;
 using Server.BLL.Implementations;
 using System;
+using UI.Abstractions;
+using UI.Implementations;
 
 namespace Server.Application
 {
@@ -17,14 +19,17 @@ namespace Server.Application
 
         public ServerBase Initialize()
         {
-            IServerFactory serverFactory = new ServerFactory();
+            IServerFactory serverFactory = new SocketServerFactory();
+            IOutput<string> writer = new ConsoleWriter();
             int port = 0;
             if(_args.Length != 1 || !int.TryParse(_args[0], out port) || port < _minPort || port > _maxPort)
             {
-                Console.WriteLine("Invalid port entered");
+                writer.WriteLine("Invalid port entered");
                 return null;
             }
-            return serverFactory.CreateServer(port); 
+            NotifyException notifyException = new NotifyException();
+            IAction action = new SocketServerAction();
+            return serverFactory.CreateServer(port, notifyException, action); 
         }
     }
 }
