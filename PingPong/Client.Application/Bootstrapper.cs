@@ -1,6 +1,8 @@
 ﻿using Client.BLL.Abstractions;
 using Client.BLL.Implementations;
 using System;
+using UI.Abstractions;
+using UI.Implementations;
 
 namespace Client.Application
 {
@@ -12,16 +14,19 @@ namespace Client.Application
         public ClientBase Initialize()
         {
             IClientFactory clientFactory = new ClientFactory();
+            IOutput<string> writer = new ConsoleWriter();
+            IInput<string> reader = new ConsoleReader();
+            NotifyException notifyException = new NotifyException(writer);
             int port = -1;
             string ip = string.Empty;
             while(port < _minPort || port > _maxPort)
             {
-                Console.WriteLine("Enter ip:port");
-                string input = Console.ReadLine();
+                writer.WriteLine("Enter ip:port");
+                string input = reader.ReadLine();
                 ip = input.Substring(0, input.IndexOf(":"));
                 port = int.Parse(input.Substring(input.IndexOf(":") + 1));
             }
-            return clientFactory.CreateClient(port, ip); 
+            return clientFactory.CreateClient(port, ip, notifyException); 
         }
     }
 }

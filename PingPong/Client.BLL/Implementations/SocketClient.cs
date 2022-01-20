@@ -3,6 +3,7 @@ using System;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using UI.Implementations;
 
 namespace Client.BLL.Implementations
 {
@@ -10,7 +11,8 @@ namespace Client.BLL.Implementations
     {
         private Socket _sender;
 
-        public SocketClient(int port, string ip) : base(port, ip)
+        public SocketClient(int port, string ip, NotifyException notifyException)
+            : base(port, ip, notifyException)
         {
 
         }
@@ -37,7 +39,7 @@ namespace Client.BLL.Implementations
             }
             catch (Exception e)
             {
-                
+                throw;
             }
             finally
             {

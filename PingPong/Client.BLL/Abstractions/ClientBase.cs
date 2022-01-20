@@ -1,4 +1,5 @@
 ﻿using System;
+using UI.Implementations;
 
 namespace Client.BLL.Abstractions
 {
@@ -8,10 +9,13 @@ namespace Client.BLL.Abstractions
 
         protected readonly string Ip;
 
-        public ClientBase(int port, string ip)
+        protected readonly NotifyException _notifyException;
+
+        public ClientBase(int port, string ip, NotifyException notifyException)
         {
             Port = port;
             Ip = ip;
+            _notifyException = notifyException;
         }
 
         public abstract void Connect();
@@ -30,7 +34,7 @@ namespace Client.BLL.Abstractions
             }
             catch (Exception e)
             {
-
+                _notifyException.Notify(e.ToString());
             }
         }
     }

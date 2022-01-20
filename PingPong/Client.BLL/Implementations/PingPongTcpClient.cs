@@ -4,6 +4,7 @@ using System;
 using System.Net.Sockets;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
+using UI.Implementations;
 
 namespace Client.BLL.Implementations
 {
@@ -11,7 +12,8 @@ namespace Client.BLL.Implementations
     {
         private TcpClient _client;
 
-        public PingPongTcpClient(int port, string ip) : base(port, ip)
+        public PingPongTcpClient(int port, string ip, NotifyException notifyException) 
+            : base(port, ip, notifyException)
         {
             _client = new TcpClient();
         }
@@ -35,7 +37,7 @@ namespace Client.BLL.Implementations
             }
             catch (Exception e)
             {
-
+                throw;
             }
             finally
             {
