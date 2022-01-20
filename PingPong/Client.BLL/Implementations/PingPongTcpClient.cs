@@ -4,34 +4,53 @@ using System;
 using System.Net.Sockets;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Threading;
 
 namespace Client.BLL.Implementations
 {
     public class PingPongTcpClient : ClientBase
     {
+        private TcpClient _client;
+
         public PingPongTcpClient(int port, string ip) : base(port, ip)
         {
-
+            _client = new TcpClient();
         }
 
-        public override void Run()
+        public override void CommunicateWithServer()
         {
-            TcpClient client = new TcpClient(Ip, Port);
-
             IFormatter formatter = new BinaryFormatter();
+            NetworkStream stream = null;
+            try
+            { 
+                stream = _client.GetStream();
 
-            NetworkStream stream = client.GetStream();
+                while(true)
+                {
+                    formatter.Serialize(stream, new Person("T", 18));
 
-            formatter.Serialize(stream, new Person("T", 18));
+                    Person p = (Person)formatter.Deserialize(stream);
 
-            Person p = (Person)formatter.Deserialize(stream);
+                    Console.WriteLine("Received: {0}", p);
+                }
+            }
+            catch (Exception e)
+            {
 
-            Console.WriteLine("Received: {0}", p);
+            }
+            finally
+            {
+                stream.Close();
+            }
+        }
 
-            stream.Close();
-            Thread.Sleep(10000);
-            client.Close();
+        public override void Connect()
+        {
+            _client.Connect(Ip, Port);
+        }
+
+        public override void CloseConnection()
+        {
+            _client.Close();
         }
     }
 }

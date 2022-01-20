@@ -1,4 +1,6 @@
-﻿namespace Client.BLL.Abstractions
+﻿using System;
+
+namespace Client.BLL.Abstractions
 {
     public abstract class ClientBase
     {
@@ -12,6 +14,24 @@
             Ip = ip;
         }
 
-        public abstract void Run();
+        public abstract void Connect();
+
+        public abstract void CommunicateWithServer();
+
+        public abstract void CloseConnection();
+
+        public void Run()
+        {
+            try
+            {
+                Connect();
+                CommunicateWithServer();
+                CloseConnection();
+            }
+            catch (Exception e)
+            {
+
+            }
+        }
     }
 }
