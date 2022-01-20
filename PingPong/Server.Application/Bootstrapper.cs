@@ -19,7 +19,7 @@ namespace Server.Application
 
         public ServerBase Initialize()
         {
-            IServerFactory serverFactory = new SocketServerFactory();
+            IServerFactory serverFactory = new TcpServerFactory();
             IOutput<string> writer = new ConsoleWriter();
             int port = 0;
             if(_args.Length != 1 || !int.TryParse(_args[0], out port) || port < _minPort || port > _maxPort)
@@ -28,7 +28,7 @@ namespace Server.Application
                 return null;
             }
             NotifyException notifyException = new NotifyException(writer);
-            IAction action = new SocketServerAction();
+            IAction action = new TcpServerAction();
             return serverFactory.CreateServer(port, notifyException, action); 
         }
     }

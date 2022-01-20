@@ -1,27 +1,38 @@
-﻿using Server.BLL.Abstraction;
+﻿using Common.DTOs;
+using Server.BLL.Abstraction;
+using System.IO;
 using System.Net.Sockets;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace Server.BLL.Implementations
 {
     public class TcpConnectedClient : IConnectedClient
     {
-        private NetworkStream _stream;
+        private TcpClient _client;
 
         public TcpConnectedClient(TcpClient client)
         {
-            _stream = client.GetStream();
+            _client = client;
         }
 
         public byte[] Receive()
         {
-            byte[] data = new byte[256];
-            _stream.Read(data, 0, data.Length);
-            return data;
+            NetworkStream stream = _client.GetStream();
+            IFormatter formatter = new BinaryFormatter();
+            Person p = (Person)formatter.Deserialize(stream);
+            BinaryFormatter bf = new BinaryFormatter();
+            using (var ms = new MemoryStream())
+            {
+                bf.Serialize(ms, p);
+                return ms.ToArray();
+            }
         }
 
         public void Send(byte[] data)
         {
-            _stream.Write(data, 0, data.Length);
+            NetworkStream stream = _client.GetStream();
+            stream.Write(data, 0, data.Length);
         }
     }
 }

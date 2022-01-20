@@ -12,7 +12,7 @@ namespace Client.Application
 
         public ClientBase Initialize()
         {
-            IClientFactory clientFactory = new SocketClientFactory();
+            IClientFactory clientFactory = new TcpClientFactory();
             IOutput<string> writer = new ConsoleWriter();
             IInput<string> reader = new ConsoleReader();
             NotifyException notifyException = new NotifyException(writer);
