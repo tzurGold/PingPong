@@ -1,4 +1,4 @@
-﻿namespace Server.ServerUI.Abstractions
+﻿namespace UI.Abstractions
 {
     public interface IInput<T>
     {

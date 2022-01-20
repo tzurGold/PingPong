@@ -1,7 +1,7 @@
-﻿using Server.ServerUI.Abstractions;
+﻿using UI.Abstractions;
 using System;
 
-namespace Server.ServerUI.Implementations
+namespace UI.Implementations
 {
     public class ConsoleWriter : IOutput<string>
     {
