@@ -6,7 +6,7 @@ namespace Client.BLL.Implementations
     {
         public ClientBase CreateClient(int port, string ip)
         {
-            return new SocketClient(port, ip);
+            return new PingPongTcpClient(port, ip);
         }
     }
 }

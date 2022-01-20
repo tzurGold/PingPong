@@ -6,7 +6,7 @@ namespace Server.BLL.Implementations
     {
         public ServerBase CreateServer(int port)
         {
-            return new SocketServer(port);
+            return new TcpServer(port);
         }
     }
 }
