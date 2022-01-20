@@ -22,7 +22,7 @@ namespace Client.BLL.Implementations
             try
             {
                 sender.Connect(localEndPoint);
-                CommunicateWithSErver(sender);
+                CommunicateWithServer(sender);
                 sender.Shutdown(SocketShutdown.Both);
                 sender.Close();
             }
@@ -36,7 +36,7 @@ namespace Client.BLL.Implementations
             }
         }
 
-        private void CommunicateWithSErver(Socket sender)
+        private void CommunicateWithServer(Socket sender)
         {
             try
             {
