@@ -3,11 +3,11 @@ using UI.Implementations;
 
 namespace Client.BLL.Implementations
 {
-    public class ClientFactory : IClientFactory
+    public class SocketClientFactory : IClientFactory
     {
         public ClientBase CreateClient(int port, string ip, NotifyException notifyException)
         {
-            return new PingPongTcpClient(port, ip, notifyException);
+            return new SocketClient(port, ip, notifyException);
         }
     }
 }
