@@ -35,6 +35,16 @@ namespace Server.BLL.Implementations
             }
         }
 
+        protected override void CloseConnection()
+        {
+            _listener.Stop();
+        }
+
+        protected override IConnectedClient Connect()
+        {
+            TcpClient client = _listener.AcceptTcpClient();
+        }
+
         protected override void Listen()
         {
             IPAddress localAddr = IPAddress.Parse("127.0.0.1");
